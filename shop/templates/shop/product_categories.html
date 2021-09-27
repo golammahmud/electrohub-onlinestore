@@ -1,0 +1,101 @@
+
+
+{% extends 'shop/base1.html'%}
+{%block title%}{%endblock%}
+{%block content%} 
+
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="{% url 'home'%}">Home</a>
+						<i>|</i>
+					</li>
+					<li>Product Categories </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+
+	<!-- Single Page -->
+	<div class="banner-bootom-w3-agileits py-5">
+		<div class="container py-xl-4 py-lg-2">
+			<!-- tittle heading -->
+			<!-- <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+				<span>S</span>ingle
+				<span>P</span>age</h3> -->
+			<!-- //tittle heading -->
+			<h3 class="heading-tittle text-center font-italic mb-4">All Categories</h3>
+			<div class="row">
+				{% for category in category%}
+					{%if  category.children.all%}
+						{%for subcat in category.children.all%}
+							<div class="col-md-3 product-men mt-3">
+								
+								<div class="men-pro-item simpleCart_shelfItem mb-4">
+									<div class="men-thumb-item text-center">
+										<a href="{% url 'category_details' subcat.slug %}"><img class="rounded" src="{{subcat.image.url}}" alt="{{subcat.name}}",style="width:200px; height:200px;" height=200 width=200></a>
+										<div class="men-cart-pro">
+											
+										</div>
+										<!-- <span class="product-new-top">{{prod.product_type}}</span> -->
+									</div>
+									<div class="item-info-product text-center border-bottom mt-2">
+										<h4 class="pt-1">
+											<a href="{% url 'category_details' subcat.slug %}">{{subcat.name}}</a>
+										</h4>
+									</div>
+								</div>
+								
+							</div>
+						{%endfor%}
+					{%endif%}
+				{%endfor%}
+			</div>
+		</div>
+	</div>
+	<!-- //Single Page -->
+
+	
+	<!-- middle section -->
+	<div class="join-w3l1 py-sm-5 py-4">
+		<div class="container py-xl-4 py-lg-2">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="join-agile text-left p-4">
+						<div class="row">
+							<div class="col-sm-7 offer-name">
+								<h6>Smooth, Rich & Loud Audio</h6>
+								<h4 class="mt-2 mb-3">Branded Headphones</h4>
+								<p>Sale up to 25% off all in store</p>
+							</div>
+							<div class="col-sm-5 offerimg-w3l">
+								<img src="images/off1.png" alt="" class="img-fluid">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 mt-lg-0 mt-5">
+					<div class="join-agile text-left p-4">
+						<div class="row ">
+							<div class="col-sm-7 offer-name">
+								<h6>A Bigger Phone</h6>
+								<h4 class="mt-2 mb-3">Smart Phones 5</h4>
+								<p>Free shipping order over $100</p>
+							</div>
+							<div class="col-sm-5 offerimg-w3l">
+								<img src="images/off2.png" alt="" class="img-fluid">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- middle section -->
+	
+	
+{%endblock%}

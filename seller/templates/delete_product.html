@@ -1,0 +1,45 @@
+{% extends 'seller_base.html'%}
+{%block title%} user registration {%endblock%}
+{%block content%} 
+{% load crispy_forms_tags %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong>  {{message}}</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  {% endfor %}
+{%endif %}
+<style>
+    .container{
+        align-content:center;
+        width:50%;
+        margin-top: 8rem;
+        
+    }
+
+</style>
+    <div class="container ml-lg-4">
+        <h1 class='mb-lg-4 '>Product - {{ product.name }}</h1>
+
+    <p class=" ml-lg-4">
+        Are you sure you want to delete this product?
+    </p>
+
+    <form method="post">
+        {% csrf_token%}
+        <div class="row ml-lg-3 border-botom">
+            <div class="col-lg-4">
+                <button class="btn btn-outline-info"> <a href="{% url 'seller_Product' %}"  class='text-danger font-weight-bold'>Cancel</a></button>
+            </div>
+            <div class="col-lg-4">
+                <input type="submit" class=' btn btn-outline-info font-weight-bold' value="Delete">
+            </div>
+        </div>
+       
+    </form>
+    </div>
+{% endblock %}

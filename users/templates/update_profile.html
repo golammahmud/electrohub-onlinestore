@@ -1,0 +1,38 @@
+  
+{% extends "shop/base1.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+ 
+  
+</style>
+<button type="submit"class="btn btn-outline text-white mt-3 ml-3" ><a href="{% url 'customer_profile' %}">Back to profile</a></button>
+   <center class="update-profile">
+    <div class="content-section col-md-4 align-item-center ml-5">
+      <div class="media ml-5 p-4">
+        {% if user.images %}
+        <img class="thumbnail-box-shadow account-img mr-3 my-1" src="{{ user.images.url }}" width="220" height='220'>
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.name }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      <!-- FORM HERE -->
+        <form action="" method='POST' enctype="multipart/form-data">
+        
+            {% csrf_token%}
+            <!-- <fieldset class='form-group'> -->
+              <legend class='border-bottom mb-4'>{{ user.name }} Profile Information</legend>
+              {{u_form|crispy}}
+            <!-- </fieldset> -->
+            <!-- {{p_form|crispy}} -->
+            <div class="from-group">
+              <button class='btn btn-outline-info'>Update</button>
+            </div>
+                  
+          </form>
+        
+    </div>
+   </center>
+{% endblock  %}

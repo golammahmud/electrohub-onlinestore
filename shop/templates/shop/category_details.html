@@ -1,0 +1,93 @@
+
+{% extends 'shop/base1.html'%}
+{%block title%}{{category.name}}{%endblock%}
+{%block content%} 
+
+
+<style>
+	.breadcrumb{
+    background-color:#FFFFFF;
+  }
+  ul.breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #eee;
+  }
+  ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+  ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+  }
+  ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+  }
+  .p{
+    text-align:center;
+    
+    
+  }
+  </style>
+
+<nav class="breadcrumb" aria-label="breadcrumb">
+  <ul class="breadcrumb">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      {% if category.parent %}
+          <li><a href="{% url 'category_details' category.parent.slug %}">{{ category.parent.name|title }}</a></li>
+      {% endif %}
+      <li class="is-active"><a href="{% url 'category_details' category.slug %}">{{ category.name|title }}</a></li>
+  </ul>
+</nav>
+
+
+<h1 class=" mb-4  border-bottom font-italic text-center title">{{ category.name|title }}</h1>
+<div class="row">   
+      {%if  category.children.all%}
+          {%for subcat in category.children.all%}
+              <div class="col-md-4 col-lg-2 ml-4 product-men mt-3">
+                  <div class="men-pro-item simpleCart_shelfItem mb-4">
+                      <div class="men-thumb-item text-center">
+                          <img src="{{subcat.image.url}}" alt="{{subcat.name}}",style="width:200px; height:200px;" height=200 width=200>
+                          <div class="men-cart-pro">                             
+                          </div>
+                          <!-- <span class="product-new-top">{{prod.product_type}}</span> -->
+                      </div>
+                      <div class="item-info-product text-center border-bottom mt-2">
+                          <h4 class="pt-1">
+                              <a href="{% url 'category_details' subcat.slug %}">{{subcat.name}}</a>
+                          </h4>
+                      </div>
+                  </div>
+              </div>
+          {%endfor%}
+      {%else%}
+          {%if products%}
+           <div class="col-sm-8">
+            {% with products as product_list %}
+            {% include 'shop/list/list_product.html' %}
+            {% endwith %} 
+           </div>
+            
+          {%else%}
+
+            <div class="col-md-12 ">
+              <center> <h4 class="p "> Product not Avaiable ?</h4></center>
+            </div>
+
+          {%endif%}
+
+
+      
+      {%endif%}
+
+</div>
+
+{%endblock%}

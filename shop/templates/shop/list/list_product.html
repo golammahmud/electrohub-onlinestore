@@ -1,0 +1,101 @@
+<div class="row">
+    {% load cart %}
+    {% load custom_filter %}
+    {% for product in product_list%}
+    <div class="col- col-sm-6 col-md-4 col-lg-4 product-men mt-4 mb-4 ">
+        <div class="men-pro-item simpleCart_shelfItem"  id={{product.id}}>
+       
+            <div class="men-thumb-item text-center">
+                <img class=" rounded " src="{{product.image.url}}" alt="{{product.name}}",style="width:220px; height:220px;" height=220 width=220>
+                <div class="men-cart-pro">
+                    <div class="inner-men-cart-pro">
+                        <a href="{% url 'product_details' product.category.slug  product.slug %}" class="link-product-add-cart">Quick View</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item-info-product text-center border-top mt-4">
+                <h4 class="pt-1">
+                    <a href="{% url 'product_details' product.category.slug  product.slug %}">{{product.name}}</a>
+                </h4>
+                <div class="info-product-price my-2">
+                    <span class="item_price">{{product.currency}} {{product.price}}</span>
+                    {%if product.del_price%}
+                    <del>{{product.del_price}} </del>
+                    {%endif%}
+                </div>
+                {% if product.product_type%}
+                <span class="product-new-top">{{product.product_type}}</span>
+                {%endif%}
+                <!-- <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                    <form action="#" method="post">
+                        <fieldset>
+                            <input type="hidden" name="cmd" value="_cart" />
+                            <input type="hidden" name="add" value="1" />
+                            <input type="hidden" name="business" value=" " />
+                            <input type="hidden" name="item_name" value="Sony 80 cm (32 inches)" />
+                            <input type="hidden" name="amount" value="320.00" />
+                            <input type="hidden" name="discount_amount" value="1.00" />
+                            <input type="hidden" name="currency_code" value="USD" />
+                            <input type="hidden" name="return" value=" " />
+                            <input type="hidden" name="cancel_return" value=" " />
+                            <input type="submit" name="submit" value="Add to cart" class="button btn" />
+                        </fieldset>
+                    </form>
+                </div> -->
+
+
+
+                <style>
+                    .card-footer{
+                        width:80%;
+                        margin-left:1.8em;
+                    }
+                </style>
+
+                
+                {% with product as product|is_in_cart:request.session.cart %}
+                {% include 'shop/list/add_cart.html' %}
+                {% endwith %} 
+                <!-- <div class="card-footer p-0 no-gutters">
+
+                    {% if product|is_in_cart:request.session.cart %}
+                    <div class="row no-gutters">
+                        <form action="#" class="col-2 col-sm-3 col-md-3 col-lg-3" method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input hidden type="text" name='remove' value='True'>
+                            <input type="submit" value=" - " class="btn btn-block btn-light border-right">
+                        </form>
+                        <div class="text-center col">{{product|cart_quantity:request.session.cart}} in Cart</div>
+                        <form action="#" class="col-2 col-sm-3 col-md-3 col-lg-3 " method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input type="submit" value=" + " class="btn btn-block btn-light border-left">
+                        </form>
+                    </div>
+                    {% else %}
+                    <form action="#" method="POST" class="btn-block">
+                        {% csrf_token %}
+                        <input hidden type="text" name='product' value='{{product.id}}'>
+                        <input type="submit" class="float-right btn btn-light  form-control"
+                            value="Add To Cart">
+                    </form>
+                    {% endif %}
+
+                </div> -->
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+
+
+

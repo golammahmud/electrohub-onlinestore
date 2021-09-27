@@ -1,0 +1,114 @@
+<div class="row">
+    {% for product in product_list%}
+    <div class="col- col-sm-6 col-md-4 product-men mt-4 mb-4">
+        <div class="men-pro-item simpleCart_shelfItem">
+            <div class="men-thumb-item text-center">
+                <img class=" rounded " src="{{product.image.url}}" alt="{{product.name}}",style="width:220px; height:220px;" height=220 width=220>
+                <div class="men-cart-pro">
+                    <div class="inner-men-cart-pro">
+                        <a href="{% url 'product_details' product.category.slug  product.slug %}" class="link-product-add-cart">Quick View</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item-info-product text-center border-top mt-4">
+                <h4 class="pt-1">
+                    <a href="{% url 'product_details' product.category.slug  product.slug %}">{{product.name}}</a>
+                </h4>
+                <div class="info-product-price my-2">
+                    <span class="item_price">{{product.price}}</span>
+                    {%if product.del_price%}
+                    <del>{{product.del_price}} </del>
+                    {%endif%}
+                </div>
+                {% if product.product_type%}
+                <span class="product-new-top">{{product.product_type}}</span>
+                {%endif%}
+                <!-- {% if product.num_available > 0 %} -->
+                <button @click="addToCart({{ product.id }})" class="button is-success">Add to cart</button>
+                <!-- {% else %} -->
+                    <!-- <p>The product is out of stock!</p> -->
+                <!-- {% endif %} -->
+                <!-- <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                    <form action="#" method="post">
+                        <fieldset>
+                            <input type="hidden" name="cmd" value="_cart" />
+                            <input type="hidden" name="add" value="1" />
+                            <input type="hidden" name="business" value=" " />
+                            <input type="hidden" name="item_name" value="Sony 80 cm (32 inches)" />
+                            <input type="hidden" name="amount" value="320.00" />
+                            <input type="hidden" name="discount_amount" value="1.00" />
+                            <input type="hidden" name="currency_code" value="USD" />
+                            <input type="hidden" name="return" value=" " />
+                            <input type="hidden" name="cancel_return" value=" " />
+                            <input type="submit" name="submit" value="Add to cart" class="button btn" />
+                        </fieldset>
+                    </form>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{% block scripts %}
+<script>
+    var productapp = new Vue({
+        el: '#productapp',
+        delimeters: ['[[', ']]'],
+        store: store,
+        data () {
+            return {
+                showMessage: false,
+                mainImage: '{{ product.image.url }}',
+                images: [{{ imagesstring|safe }}]
+            }
+        },
+        mounted() {
+            console.log('Mounted');
+        },
+        methods: {
+            changeMainImage(image) {
+                this.mainImage = image;
+            },
+            addToCart(product_id) {
+                console.log('Product_id:', product_id);
+
+                var data = {
+                    'product_id': product_id, 
+                    'update': false,
+                    'quantity': 1
+                };
+                    
+                fetch('/api/add_to_cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                    console.log(response)
+
+                    this.showMessage = true
+
+                    store.commit('increment', 1);
+
+                    setTimeout(() => {
+                        this.showMessage = false
+                    }, 2000)
+                })
+                .catch(function (error) {
+                    console.log('Error 2');
+                    console.log(error);
+                })
+            }
+        }
+    });
+</script>
+
+
+
+

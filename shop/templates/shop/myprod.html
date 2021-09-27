@@ -1,0 +1,500 @@
+
+
+{% extends 'shop/base1.html'%}
+{%block title%} {%endblock%}
+{%block content%} 
+{% load cart %}
+{% load custom_filter %}
+<!-- <script>
+	function imageZoom(imgID, resultID) {
+	  var img, lens, result, cx, cy;
+	  img = document.getElementById(imgID);
+	  result = document.getElementById(resultID);
+	  /*create lens:*/
+	  lens = document.createElement("DIV");
+	  lens.setAttribute("class", "img-zoom-lens");
+	  /*insert lens:*/
+	  img.parentElement.insertBefore(lens, img);
+	  /*calculate the ratio between result DIV and lens:*/
+	  cx = result.offsetWidth / lens.offsetWidth;
+	  cy = result.offsetHeight / lens.offsetHeight;
+	  /*set background properties for the result DIV:*/
+	  result.style.backgroundImage = "url('" + img.src + "')";
+	  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+	  /*execute a function when someone moves the cursor over the image, or the lens:*/
+	  lens.addEventListener("mousemove", moveLens);
+	  img.addEventListener("mousemove", moveLens);
+	  /*and also for touch screens:*/
+	  lens.addEventListener("touchmove", moveLens);
+	  img.addEventListener("touchmove", moveLens);
+	  function moveLens(e) {
+		var pos, x, y;
+		/*prevent any other actions that may occur when moving over the image:*/
+		e.preventDefault();
+		/*get the cursor's x and y positions:*/
+		pos = getCursorPos(e);
+		/*calculate the position of the lens:*/
+		x = pos.x - (lens.offsetWidth / 2);
+		y = pos.y - (lens.offsetHeight / 2);
+		/*prevent the lens from being positioned outside the image:*/
+		if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+		if (x < 0) {x = 0;}
+		if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+		if (y < 0) {y = 0;}
+		/*set the position of the lens:*/
+		lens.style.left = x + "px";
+		lens.style.top = y + "px";
+		/*display what the lens "sees":*/
+		result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+	  }
+	  function getCursorPos(e) {
+		var a, x = 0, y = 0;
+		e = e || window.event;
+		/*get the x and y positions of the image:*/
+		a = img.getBoundingClientRect();
+		/*calculate the cursor's x and y coordinates, relative to the image:*/
+		x = e.pageX - a.left;
+		y = e.pageY - a.top;
+		/*consider any page scrolling:*/
+		x = x - window.pageXOffset;
+		y = y - window.pageYOffset;
+		return {x : x, y : y};
+	  }
+	}
+	</script>
+	<style>
+		* {box-sizing: border-box;}
+		
+		.img-zoom-container {
+		  position: relative;
+		  
+		}
+		
+		.img-zoom-lens {
+		  position: absolute;
+		  border: 1px solid #d4d4d4;
+		  /*set the size of the lens:*/
+		  width: 40px;
+		  height: 40px;
+		}
+		
+		.img-zoom-result {
+		  border: 1px solid #d4d4d4;
+		  /*set the size of the result div:*/
+		  width: 100%;
+		  height: 300px;
+		  background:none;
+		}
+		</style> -->
+<!-- imagezoom -->
+<style>
+	* {
+	  box-sizing: border-box;
+	}
+	
+	img {
+	  vertical-align: middle;
+	}
+	
+	/* Position the image container (needed to position the left and right arrows) */
+	.container {
+	  position: relative;
+	}
+	
+	/* Hide the images by default */
+	.mySlides {
+	  display: none;
+	}
+	
+	/* Add a pointer when hovering over the thumbnail images */
+	.cursor {
+	  cursor: pointer;
+	}
+	
+	/* Next & previous buttons */
+	.prev,
+	.next {
+	  cursor: pointer;
+	  position: absolute;
+	  top: 40%;
+	  width: auto;
+	  padding: 16px;
+	  margin-top: -50px;
+	  color: white;
+	  font-weight: bold;
+	  font-size: 20px;
+	  border-radius: 0 3px 3px 0;
+	  user-select: none;
+	  -webkit-user-select: none;
+	}
+	
+	/* Position the "next button" to the right */
+	.next {
+	  right: 0;
+	  border-radius: 3px 0 0 3px;
+	}
+	
+	/* On hover, add a black background color with a little bit see-through */
+	.prev:hover,
+	.next:hover {
+	  background-color: rgba(0, 0, 0, 0.8);
+	}
+	
+	/* Number text (1/3 etc) */
+	.numbertext {
+	  color: #f2f2f2;
+	  font-size: 12px;
+	  padding: 8px 12px;
+	  position: absolute;
+	  top: 0;
+	}
+	
+	/* Container for image text */
+	.caption-container {
+	  text-align: center;
+	  background-color: #222;
+	  padding: 2px 16px;
+	  color: white;
+	}
+	
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+	
+	/* Six columns side by side */
+	.column {
+	  float: left;
+	  width: 16.66%;
+	}
+	
+	/* Add a transparency effect for thumnbail images */
+	.demo {
+	  opacity: 0.6;
+	}
+	
+	.active,
+	.demo:hover {
+	  opacity: 1;
+	}
+	ul.breadcrumb {
+		padding: 10px 16px;
+		list-style: none;
+		background-color: #eee;
+	  }
+	  ul.breadcrumb li {
+		display: inline;
+		font-size: 18px;
+	  }
+	  ul.breadcrumb li+li:before {
+		padding: 8px;
+		color: black;
+		content: "/\00a0";
+	  }
+	  ul.breadcrumb li a {
+		color: #0275d8;
+		text-decoration: none;
+	  }
+	  ul.breadcrumb li a:hover {
+		color: #01447e;
+		text-decoration: underline;
+	  }
+	  .p{
+		text-align:center;
+		
+		
+	  }
+	  .breadcrumb{
+		  background-color:#FFFFFF;
+	  }
+	</style>
+
+	
+	<!-- Single Page -->
+	<div class="banner-bootom-w3-agileits py-5">
+		<div class="container py-xl-4 py-lg-2">  
+			  <nav class="breadcrumb" aria-label="breadcrumb">
+				<ul class="breadcrumb">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					{% if category.parent %}
+						<li><a href="{% url 'category_details' product.category.parent.slug %}">{{ product.category.parent.name|title }}</a></li>
+					{% endif %}
+					<li><a href="{% url 'category_details' product.category.slug %}">{{ product.category.name|title }}</a></li>
+					<li class="is-active"><a href="{% url 'product_details' product.category.slug  product.slug %}">{{ product.name }}</a></li>
+				</ul>
+			  </nav>
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+				<span>P</span>roduct
+				<span>D</span>etails</h3>
+			<!-- //tittle heading -->
+			<div class="row">
+              
+				<div class="col-lg-6 col-md-9 single-right-left ">
+                    <!-- imageslider -->
+					<div class="container  mr-3">
+
+						{%for p in photos%}
+						<div class="mySlides">
+							<div class="img-zoom-container">
+								<img  id="myimage" src="{{p.images.url}}" style="width:100%">
+								<div id="myresult" type='hidden' class="img-zoom-result"></div>
+							  </div>
+			
+						</div>
+					  {%endfor%}
+						
+
+
+						<!-- {%for p in photos%}
+						<div class="mySlides">
+						  <div class="numbertext">1 / 6</div>
+						  <img src="{{p.images.url}}" style="width:100%">
+						</div>
+					  {%endfor%} -->
+						<!-- <div class="mySlides">
+						  <div class="numbertext">2 / 6</div>
+						  <img src="img_5terre_wide.jpg" style="width:100%">
+						</div>
+					  
+						<div class="mySlides">
+						  <div class="numbertext">3 / 6</div>
+						  <img src="img_mountains_wide.jpg" style="width:100%">
+						</div> -->
+						  
+					
+						  
+						<a class="prev" onclick="plusSlides(-1)">❮</a>
+						<a class="next mr-3" onclick="plusSlides(1)">❯</a>
+					  
+						<div class="caption-container">
+						  <p id="caption"></p>
+						</div>
+					  
+						<div class="row ml-5 mt-3">
+							{%for p in photos%}
+							<div class="column ml-3 ">
+								<img class="demo cursor" src="{{p.images.url}}" style="width:100%" onclick="currentSlide({{p.id}})" alt=" ">
+							</div>
+							{%endfor%}
+						</div>
+					  </div>
+					<!-- imageslider -->
+					
+					
+				</div>
+					
+				{%if product%}
+				<div class="col-lg-6 single-right-left simpleCart_shelfItem">
+						<h3 class="mb-3">{{product.name}}</h3>
+						<p class="mb-3">
+						<span class="item_price">{{product.price}}</span>
+						{% if product.del_price%}
+						<del class="mx-2 font-weight-light">{{product.del_price}}</del>
+						{%endif%}
+						<!-- {% if facility%}
+						{% for fc in facility%}
+						<label>{{fc.facility}}</label>
+						{%endfor%}
+						{%endif%} -->
+					</p>
+					<div class="single-infoagile">
+						<ul>
+							<p class="my-3">
+								<i class="far fa-hand-point-right mr-2"></i>
+								
+								{% if facility%}
+								{% for fc in facility%}
+								<li class="mb-3">
+									{{fc.facility}}
+								</li>
+								{%endfor%}
+								{%endif%}
+							</p>
+						</ul>
+					</div>
+					<div class="product-single-w3l  ">
+							<p class="my-3 subtitle font-weight-bold">
+									<i class="far fa-hand-point-right mr-2"></i>
+							{{product.name}} features-</p>
+							
+						<ul>
+							{% if feature%}
+							{% for f in feature%}
+							<li class="mb-3">
+								{{f.feature}}
+							</li>
+							{%endfor%}
+							{%endif%}
+						
+						</ul>
+						<!-- <p class="my-sm-4 my-3">
+								<i class="fas fa-retweet mr-3"></i>Net banking & Credit/ Debit/ ATM card
+						</p> -->
+					</div>
+
+
+
+					{% with product as product|is_in_cart:request.session.cart %}
+					{% include 'shop/list/add_cart.html' %}
+					{% endwith %} 
+
+					<!-- {% load cart %}
+					{% load custom_filter %}
+					<div class="card-footer p-0 no-gutters">
+
+						{% if product|is_in_cart:request.session.cart %}
+						<div class="row no-gutters">
+							<form action="/#{{product.id}}" class="col-2 col-sm-3 col-md-3 col-lg-3" method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<input type="submit" value=" - " class="btn btn-block btn-light border-right">
+							</form>
+							<div class="text-center col">{{product|cart_quantity:request.session.cart}} in Cart</div>
+							<form action="/#{{product.id}}" class="col-2 col-sm-3 col-md-3 col-lg-3 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input type="submit" value=" + " class="btn btn-block btn-light border-left">
+							</form>
+						</div>
+						{% else %}
+						<form action="/#{{product.id}}" method="POST" class="btn-block">
+							{% csrf_token %}
+							<input hidden type="text" name='product' value='{{product.id}}'>
+							<input type="submit" class="float-right btn btn-light  form-control"
+								value="Add To Cart">
+						</form>
+						{% endif %}
+	
+					</div> -->
+
+
+					<!-- <div class="occasion-cart">
+						<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+							<form action="#" method="post">
+								<fieldset>
+									<input type="hidden" name="cmd" value="_cart" />
+									<input type="hidden" name="add" value="1" />
+									<input type="hidden" name="business" value=" " />
+									<input type="hidden" name="item_name" value="Double-Door Refrigerator" />
+									<input type="hidden" name="amount" value="220.00" />
+									<input type="hidden" name="discount_amount" value="1.00" />
+									<input type="hidden" name="currency_code" value="USD" />
+									<input type="hidden" name="return" value=" " />
+									<input type="hidden" name="cancel_return" value=" " />
+									<input type="submit" name="submit" value="Add to cart" class="button" />
+								</fieldset>
+							</form>
+						</div>
+
+					</div> -->
+
+				</div>
+				{%endif %}
+			</div>
+		</div>
+	</div>
+	<!-- //Single Page -->
+<!-- footer first section -->
+<div class="des ml-4">
+	<h2 class="footer-top-head-w3l font-weight-bold mb-2 ">Descriptions:</h2>
+<p class="footer-main mb-4">
+	{{product.description}}</p>
+</div>
+<!-- //footer first section -->
+
+{% if product.variasions.all %}
+<div class="row">
+    {% for product in product_list%}
+    <div class="col-md-4 product-men mt-4 mb-4">
+        <div class="men-pro-item simpleCart_shelfItem">
+            <div class="men-thumb-item text-center">
+                <img src="{{product.image.url}}" alt="{{product.name}}",height=190 width=190>
+                <div class="men-cart-pro">
+                    <div class="inner-men-cart-pro">
+                        <a href="{% url 'product_details' product.category.slug  product.slug %}" class="link-product-add-cart">Quick View</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item-info-product text-center border-top mt-4">
+                <h4 class="pt-1">
+                    <a href="{% url 'product_details' product.category.slug  product.slug %}">{{product.name}}</a>
+                </h4>
+                <div class="info-product-price my-2">
+                    <span class="item_price">{{product.price}}</span>
+                    <del>{{product.del_price}} </del>
+                </div>
+                {% if product.product_type%}
+                <span class="product-new-top">{{product.product_type}}</span>
+                {%endif%}
+                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                    <form action="#" method="post">
+                        <fieldset>
+                            <input type="hidden" name="cmd" value="_cart" />
+                            <input type="hidden" name="add" value="1" />
+                            <input type="hidden" name="business" value=" " />
+                            <input type="hidden" name="item_name" value="Sony 80 cm (32 inches)" />
+                            <input type="hidden" name="amount" value="320.00" />
+                            <input type="hidden" name="discount_amount" value="1.00" />
+                            <input type="hidden" name="currency_code" value="USD" />
+                            <input type="hidden" name="return" value=" " />
+                            <input type="hidden" name="cancel_return" value=" " />
+                            <input type="submit" name="submit" value="Add to cart" class="button btn" />
+                        </fieldset>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+
+
+
+
+
+{% else%}
+<center><p>No product variations avaiables</p></center>
+{%endif%}
+	<script>
+		var slideIndex = 1;
+		showSlides(slideIndex);
+		
+		function plusSlides(n) {
+		  showSlides(slideIndex += n);
+		}
+		
+		function currentSlide(n) {
+		  showSlides(slideIndex = n);
+		}
+		
+		function showSlides(n) {
+		  var i;
+		  var slides = document.getElementsByClassName("mySlides");
+		  var dots = document.getElementsByClassName("demo");
+		  var captionText = document.getElementById("caption");
+		  if (n > slides.length) {slideIndex = 1}
+		  if (n < 1) {slideIndex = slides.length}
+		  for (i = 0; i < slides.length; i++) {
+			  slides[i].style.display = "none";
+		  }
+		  for (i = 0; i < dots.length; i++) {
+			  dots[i].className = dots[i].className.replace(" active", "");
+		  }
+		  slides[slideIndex-1].style.display = "block";
+		  dots[slideIndex-1].className += " active";
+		  captionText.innerHTML = dots[slideIndex-1].alt;
+		}
+		</script>
+
+		<!-- image zoom -->
+		<script>
+			// Initiate zoom effect:
+			imageZoom("myimage", "myresult");
+			</script>
+    {%endblock%}
+

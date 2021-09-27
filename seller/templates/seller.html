@@ -1,0 +1,27 @@
+{% extends 'seller_base.html' %}
+{% block content%}
+<section class='sec1'>
+    <div class="container" >
+        <div class="row mt-lg-5">
+            <div class=" col-lg-8 ">
+                <h1>Become an Electrohub seller</h1>
+                <h4 style="color:#DE4400">More than half the units sold in our stores are from independent sellers.</h4>
+            </div>
+            <div class="auth d-inline-block">
+               
+                    <div class="signup d-inline-block">
+                        <button class="btn btn-outline-info text-center text-white"><a class="text-white"  href="{% url 'signup' %}"><i class="fa fa-sign-out" aria-hidden="true">Sign Up</i></a></button>
+                    </div>
+                    <div class="signin d-inline-block">
+                        <button class="btn btn-outline-info text-center text-white"><a class="text-white"  href="{% url 'signin' %}"><i class="fa fa-sign-out" aria-hidden="true">Sign In</i></a></button>
+                    </div>
+            </div>
+            
+        </div>
+        <div class="col-lg-4">
+            
+        </div>
+    </div>
+   
+</section>
+{% endblock %}

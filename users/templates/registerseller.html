@@ -1,0 +1,132 @@
+{% extends 'shop/base1.html'%}
+{%block title%} user registration {%endblock%}
+{%block content%} 
+<!-- {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %} -->
+
+{% if error_message %}
+    {% for field in error_message %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+    {% endfor %}
+{% endif %}
+
+{% load crispy_forms_tags %}
+
+  <!-- <div class="form-container  ">
+        <h1 class='text-center mb-2 mt-4'>Register</h1>
+        <p class="text-center">Please fill in this form to create an account.</p> 
+  </div> -->
+
+  <!-- Tabs navs -->
+
+<style>
+  .fancy-forms .tab-content {
+  
+    background: #ffffff;
+    color: #0f0f0f;
+    padding: 10px;
+    box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .fancy-forms .nav-tabs .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .fancy-forms .nav-tabs .nav-link {
+    border: 1px solid #e47a4b;
+    background-color: #e47a4b;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: #ffffff;
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+  }
+  
+  .fancy-forms .nav-tabs .nav-link.active {
+    border-color: #fff;
+    color: #e47a4b;
+    background-color: #ffffff;
+  }
+  
+  .fancy-forms .nav-tabs .nav-link:hover {
+    border-color: #fff;
+  }
+  
+  fancy-forms .nav-tabs .nav-link.active:hover {
+    border-color: #e47a4b;
+  }
+  
+  .fancyformcontainer {
+    width: 100%;
+    background: #e6c3b4;
+    padding: 1.5rem 3rem !important;
+    
+  }
+  
+  .formsubmitbtn {
+    background: #e47a4b;
+    color: white;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .formsubmitbtn:hover,
+  .formsubmitbtn:focus {
+    color: #fff;
+  }
+
+  
+  .btn{
+    width: 30%;
+    margin-top:30px;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 mt-5 fancy-forms">
+       <!-- <div class="cardbox"> -->
+          <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="customer_form" role="tabpanel" aria-labelledby="customer">
+                  <div class="fancyformcontainer">
+                    <div class="form-container  ">
+                      <h1 class='text-center mb-2 mt-4'>Seller Registration</h1>
+                      <p class="text-center">Please fill in this form to create an account.</p> 
+                    </div>
+                    <form action="#" method="post">
+                      <div class="container mt-4 p-4"  >
+                          {%csrf_token%}
+                          {{form|crispy}}
+                        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-outline-info ">Submit</button>
+                        </div>
+                        <!-- <button type="submit" class="registerbtn">Register</button> -->
+                      </div>
+                      
+                      <div class="container signin">
+                        <p>Already have an account? <a href="#">Sign in</a>.</p>
+                      </div>
+                    </form> 
+              </div>
+            </div>      
+          </div>        
+        </div>
+  </div>
+</div>
+
+
+{%endblock%}

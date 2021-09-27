@@ -1,0 +1,340 @@
+
+
+{% extends 'shop/base1.html'%}
+{%block title%}My Awesome ecommerce{%endblock%}
+{%block content%} 
+{% load cart %}
+{% load custom_filter %}
+<style>
+	.card-footer{
+		width:19.5%;
+		height:3%;
+		margin-bottom: 30px;
+	}
+	 /* Make the image fully responsive */
+	 .carousel-inner img {
+		width: 100%;
+		height: 100%;
+	  }
+</style>
+
+	<!-- banner -->
+	 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+		<!-- Indicators-->
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item item1 active">
+				<div class="container">
+					<div class="w3l-space-banner">
+						<div class="carousel-caption p-lg-5 p-sm-4 p-3">
+							<p>Get flat
+								<span>10%</span> Cashback</p>
+							<h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">The
+								<span>Big</span>
+								Sale
+							</h3>
+							<a class="button2" href="product.html">Shop Now </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item item2">
+				<div class="container">
+					<div class="w3l-space-banner">
+						<div class="carousel-caption p-lg-5 p-sm-4 p-3">
+							<p>advanced
+								<span>Wireless</span> earbuds</p>
+							<h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">Best
+								<span>Headphone</span>
+							</h3>
+							<a class="button2" href="product.html">Shop Now </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item item3">
+				<div class="container">
+					<div class="w3l-space-banner">
+						<div class="carousel-caption p-lg-5 p-sm-4 p-3">
+							<p>Get flat
+								<span>10%</span> Cashback</p>
+							<h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">New
+								<span>Standard</span>
+							</h3>
+							<a class="button2" href="product.html">Shop Now </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item item4">
+				<div class="container">
+					<div class="w3l-space-banner">
+						<div class="carousel-caption p-lg-5 p-sm-4 p-3">
+							<p>Get Now
+								<span>40%</span> Discount</p>
+							<h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">Today
+								<span>Discount</span>
+							</h3>
+							<a class="button2" href="product.html">Shop Now </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	 </div>
+	<!-- //banner -->
+
+	<!-- top Products -->
+	<div class="ads-grid py-sm-5 py-4">
+		<div class="container py-xl-4 py-lg-2">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+				<span>O</span>ur
+				<span>N</span>ew
+				<span>P</span>roducts</h3>
+			<!-- //tittle heading -->
+			<div class="row">
+				<!-- product left -->
+				<div class="agileinfo-ads-display col-lg-9">
+					<div class="wrapper">
+						<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+							<h3 class="heading-tittle text-center border-bottom font-italic mb-4">New Categories</h3>
+							<div class="row">
+								{% for category in category%}
+									{%if  category.children.all%}
+										{%for subcat in category.children.all%}
+											<div class="col- col-sm-6 col-md-3 col-lg-3 product-men mt-3">
+												
+												<div class="men-pro-item simpleCart_shelfItem mb-4">
+													<div class="men-thumb-item text-center">
+														<img src="{{subcat.image.url}}" alt="{{subcat.name}}", style="width:160px; height:160px;" height=160 width=160>
+														<div class="men-cart-pro">
+															
+														</div>
+														<!-- <span class="product-new-top">{{prod.product_type}}</span> -->
+													</div>
+													<div class="item-info-product text-center border-bottom mt-2">
+														<h4 class="pt-1">
+															<a href="{% url 'category_details' subcat.slug %}">{{subcat.name}}</a>
+														</h4>
+													</div>
+												</div>
+												
+											</div>
+										{%endfor%}
+									{%endif%}
+								{%endfor%}
+							</div>
+
+							<div class=" mt-4 text-center">
+								<button class="btn btn-default"><a href="{% url 'product_category' %}">See More...</a></button>
+							</div>
+						</div>
+
+						<!-- second section -->
+
+                    {% if featured_category%}
+						<div class=" product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+							<center><h2 class=" subtitle  mb-2">Featured Categories</h2></center>
+                            {% for category in featured_category|slice:"3"%}
+                                {% if category.products.all%}
+                                    <h4 class=" mb-4 mt-4 heading-tittle border-bottom text-center font-italic">{{category.name}}</h4>
+                                    
+                                    {% with category.products.all|slice:":4" as product_list %}
+                                    {% include 'shop/list/list_product.html' %}
+                                    {% endwith %}
+                                    <div class="mt-4  text-center  ">
+                                        <button class="btn btn-default"><a href="{% url 'category_details' category.slug %}">See More...</a></button>
+                                    </div>
+                                
+                                {%else%}
+                                        
+                                {%endif%}
+                            {%endfor%}
+						</div>
+                    {%endif%}
+				
+				
+						<!-- //second section -->
+						<!-- third section -->
+						<!-- <div class="product-sec1 product-sec2 px-sm-5 px-3">
+							<div class="row">
+								{%for carnival in carnival%}
+								<h3 class="col-md-4 ">{{carnival.carnival_title|title}}</h3>
+								<p class="w3l-nut-middle">{{carnival.carnival_offer_title|title}}</p>
+								<div class="col-md-8 ">
+									<img src="{{carnival.image.url}}" alt="">
+								</div>
+								{%endfor%}
+							</div>
+						</div> -->
+						<!-- //third section -->
+
+						   
+						<!-- fourth section -->
+						<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+							<h3 class="heading-tittle text-center font-italic mb-4 border-bottom">Featured Products</h3>
+							
+							{% with products|slice:":4" as product_list %}
+                			{% include 'shop/list/list_product.html' %}
+            				{% endwith %} 
+							<div class="mt-4 text-center ">
+								<button class="btn btn-default"><a href="{% url 'all_products' %}">See More...</a></button>
+							</div>
+						</div>
+						<!-- //fourth section -->
+						{%if popular_products%}
+						<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+							<h3 class="heading-tittle text-center font-italic mb-4 border-bottom">Popular Products</h3>
+							
+							{% with popular_products|slice:":4" as product_list %}
+                			{% include 'shop/list/list_product.html' %}
+            				{% endwith %} 
+							<div class="mt-4 text-center ">
+								<button class="btn btn-default"><a href="{% url 'all_products' %}">See More...</a></button>
+							</div>
+						</div>
+						{%endif%}
+			<!-- ----	section 5---------- -->
+					{%if recently_viewed_products%}
+						<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+							<h3 class="heading-tittle text-center font-italic mb-4 border-bottom">Recently viewed Products</h3>
+							
+							{% with recently_viewed_products|slice:":4" as product_list %}
+                			{% include 'shop/list/list_product.html' %}
+            				{% endwith %} 
+							<div class="mt-4 text-center ">
+								<button class="btn btn-default"><a href="{% url 'all_products' %}">See More...</a></button>
+							</div>
+						</div>
+						{%endif%}
+		<!-- -------section recent view product---- -->
+					</div>
+				</div>
+				<!-- //product left -->
+
+				<!-- product right -->
+				<div class="col-lg-3 mt-lg-0 mt-4 p-lg-0">
+					<div class="side-bar p-sm-4 p-3">
+						<!-- delivery -->
+						<div class="left-side border-bottom py-2">
+							<h3 class="agileits-sear-head mb-3">Cash On Delivery</h3>
+							<ul>
+								<li>
+									<input type="checkbox" class="checked">
+									<span class="span">Eligible for Cash On Delivery</span>
+								</li>
+							</ul>
+						</div>
+						<!-- //delivery -->
+						<!-- arrivals -->
+						<div class="left-side border-bottom py-2">
+							<h3 class="agileits-sear-head mb-3">New Arrivals</h3>
+							<ul>
+								<li>
+									<input type="checkbox" class="checked">
+									<span class="span">Last 30 days</span>
+								</li>
+								<li>
+									<input type="checkbox" class="checked">
+									<span class="span">Last 90 days</span>
+								</li>
+							</ul>
+						</div>
+						<!-- //arrivals -->
+						<!-- best seller -->
+						<div class="f-grid py-2">
+							<h3 class="agileits-sear-head mb-3">Best Seller</h3>
+							<div class="box-scroll">
+								<div class="scroll">
+									<div class="row">
+										<div class="col-lg-3 col-sm-2 col-3 left-mar">
+											<img src="images/k1.jpg" alt="" class="img-fluid">
+										</div>
+										<div class="col-lg-9 col-sm-10 col-9 w3_mvd">
+											<a href="">Samsung Galaxy On7 Prime (Gold, 4GB RAM + 64GB Memory)</a>
+											<a href="" class="price-mar mt-2">$12,990.00</a>
+										</div>
+									</div>
+									<div class="row my-4">
+										<div class="col-lg-3 col-sm-2 col-3 left-mar">
+											<img src="images/k2.jpg" alt="" class="img-fluid">
+										</div>
+										<div class="col-lg-9 col-sm-10 col-9 w3_mvd">
+											<a href="">Haier 195 L 4 Star Direct-Cool Single Door Refrigerator</a>
+											<a href="" class="price-mar mt-2">$12,499.00</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-3 col-sm-2 col-3 left-mar">
+											<img src="images/k3.jpg" alt="" class="img-fluid">
+										</div>
+										<div class="col-lg-9 col-sm-10 col-9 w3_mvd">
+											<a href="">Ambrane 13000 mAh Power Bank (P-1310 Premium)</a>
+											<a href="" class="price-mar mt-2">$1,199.00 </a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //best seller -->
+					</div>
+					<!-- //product right -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //top products -->
+
+	<!-- middle section -->
+	<div class="join-w3l1 py-sm-5 py-4">
+		<div class="container py-xl-4 py-lg-2">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="join-agile text-left p-4">
+						<div class="row">
+							<div class="col-sm-7 offer-name">
+								<h6>Smooth, Rich & Loud Audio</h6>
+								<h4 class="mt-2 mb-3">Branded Headphones</h4>
+								<p>Sale up to 25% off all in store</p>
+							</div>
+							<div class="col-sm-5 offerimg-w3l">
+								<img src="images/off1.png" alt="" class="img-fluid">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 mt-lg-0 mt-5">
+					<div class="join-agile text-left p-4">
+						<div class="row ">
+							<div class="col-sm-7 offer-name">
+								<h6>A Bigger Phone</h6>
+								<h4 class="mt-2 mb-3">Smart Phones 5</h4>
+								<p>Free shipping order over $100</p>
+							</div>
+							<div class="col-sm-5 offerimg-w3l">
+								<img src="images/off2.png" alt="" class="img-fluid">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- middle section -->
+
+{%endblock%}

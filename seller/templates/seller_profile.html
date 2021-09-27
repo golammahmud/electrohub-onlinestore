@@ -1,0 +1,286 @@
+{% extends 'seller_base.html'%}
+{%block title%} user registration {%endblock%}
+{%block content%} 
+{% load crispy_forms_tags %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong>  {{message}}</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  {% endfor %}
+{%endif %}
+<style>
+   
+    .emp-profile{
+        padding: 3%;
+        margin-top: 1.5%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background-color: #A1C0D3;
+    }
+    .profile-img{
+        text-align: center;
+    }
+    .profile-img img{
+        width: 220px;
+        height: 220px;
+    }
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -26%;
+        width: 210px;
+        
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+    .profile-head h5{
+        color: #333;
+    }
+    .profile-head h6{
+        color: #0062cc;
+    }
+    .profile-edit-btn{
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+    .proile-rating{
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+    .proile-rating span{
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .profile-head .nav-tabs{
+        margin-bottom:5%;
+    }
+    .profile-head .nav-tabs .nav-link{
+        font-weight:600;
+        border: none;
+    }
+    .profile-head .nav-tabs .nav-link.active{
+        border: none;
+        border-bottom:2px solid #0062cc;
+    }
+    .profile-work{
+        padding: 14%;
+        margin-top: -15%;
+    }
+    .profile-work p{
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+    .profile-work a{
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    .profile-work ul{
+        list-style: none;
+    }
+    .profile-tab label{
+        font-weight: 600;
+    }
+    .profile-tab p{
+        font-weight: 600;
+        color: #0062cc;
+    }
+</style>
+
+
+<div class="container emp-profile">
+  <center>  <h1 class="title">Suplier admin - {{ vendor.name }}</h1></center>
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        {% if request.user.images%}
+                        <div class="profile-img">
+                            <img class="img-thumbnail" src="{{user.images.url}}" alt="{{user.images.url}}" srcset="">
+                            <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/> -->
+                            
+                            <div class="file btn btn-lg btn-primary">
+                                <a class=" btn text-primary " href="{% url 'picture_update'%}">Change Photo</a>
+
+                            </div>
+                            
+                        </div>
+                        {%endif%}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{request.user.name}} 
+                                    </h5>
+                                    <h6>
+                                        {{user.Company_name}}
+                                    </h6>
+                                    <p class="proile-rating mb-5">RANKINGS : <span>8/10</span></p>
+                            <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Orders</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"><a href="{% url 'seller_profile_update'%}">Edit Profile</a></button>
+                        <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            <p>Profile working area</p>
+                            <a href="{% url 'seller_Product' %}"> Your Products</a><br/>
+                            <a href="{% url 'create_product' %}"> Upload Products</a><br/>
+                            <a href="{% url 'product_order' %}">approved Orders</a><br/>
+                           
+                            <a href="{% url 'all_orders' %}"> All Orders</a><br>
+                        
+                            <!-- <p></p> -->
+                            <a href="#">message</a><br/>
+                            <!-- <a href="">Web Developer</a><br/>
+                            <a href="">WordPress</a><br/>
+                            <a href="">WooCommerce</a><br/>
+                            <a href="">PHP, .Net</a><br/> -->
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                        
+                                            <div class="col-md-6">
+                                                <label>User Id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{request.user.id}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.phone}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.address}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Company Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.Company_name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Warehouse Location</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.warehouse_location}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Goods Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.goodstype}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Account Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.type}}</p>
+                                            </div>
+                                        </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                              <h2>this is product tab</h2>
+                                {% if products %}
+                                        <table class="table is-fullwidth">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Price</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                {% for product in products %}
+                                                    <tr>
+                                                        <td><a href="{% url 'product' product.category.slug product.slug %}">{{ product.title }}</a></td>
+                                                        <td>${{ product.price }}</td>
+                                                        <td><a href="{% url 'edit_product' product.id %}">Edit</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <p>You don't have any products yet...</p>
+                                    {% endif %}
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+
+{%endblock%}
